@@ -1,0 +1,79 @@
+<br>
+<h5><%= @myidea.title %></h5>
+<p><%= @myidea.body %></p>
+<%  user=User.find @myidea.user_id %>
+<h5><u><%= user.name %></u></h5>
+
+<p>Created On: <%= formatted_date(@myidea.created_at) %></p>
+
+<p> <%= link_to "#{@myidea.collaborations.count} users joined !",
+                myidea_collaborations_path(@myidea) %>
+</p>
+
+<div class="form-group">
+
+<% if @myidea.collaborated_by?(current_user) %>
+<%= link_to "Joined".html_safe,
+          myidea_collaboration_path(@myidea, @collaboration), method: :delete %>
+
+<% else %>
+<%= link_to "Join".html_safe,
+            myidea_collaborations_path(@myidea), method: :post%>
+
+<% end %>
+</div>
+
+
+<p> <%= link_to "Liked #{@myidea.likes.count} time(s)",
+                myidea_likes_path(@myidea) %>
+</p>
+
+<div class="form-group">
+
+<% if @myidea.liked_by?(current_user) %>
+  <%= link_to "Unlike".html_safe,
+                myidea_like_path(@myidea, @like), method: :delete %>
+<% else %>
+  <%= link_to "Like".html_safe,
+                myidea_likes_path(@myidea), method: :post %>
+<% end %>
+</div>
+<hr>
+<% if can?(:edit, @myidea) %>
+  <%= link_to "Edit", edit_myidea_path(@myidea) %>
+<% end %>
+<% if can?(:destroy, @myidea) %>
+  <%= link_to "Delete", myidea_path(@myidea),
+                method: :delete, data: {confirm: "Are you sure"} %>
+<% end %>
+
+<% if @comment.errors.any? %>
+  <ul>
+    <% @comment.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<%= form_for [@myidea, @comment] do |f| %>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <%= f.submit %>
+<% end %>
+
+<h2>Comments</h2>
+<% @myidea.comments.each do |comment| %>
+  <p>
+    <%= comment.body %> |
+    Created By: <%= comment.user.name %> on
+      <%= formatted_date(comment.created_at) %>
+    <% if can? :destroy, comment  %>
+      <%= link_to "Delete", myidea_comment_path(@myidea, comment), method: :delete,
+                  data: {confirm: "Are you sure you want delete the comment?"} %>
+    <% end %>
+  </p>
+  <hr>
+<% end %>

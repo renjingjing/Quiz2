@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Idea</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="container">
+<hr>
+
+  <div style="height:50px; width:50px; background-color:lightgrey ; border-radius:5px"></div>
+  <p>Idea Factory</p>
+
+  <%= link_to "All Idea", myideas_path %> |
+  <%= link_to "New Idea", new_myidea_path %>
+
+  <div class="left">
+  <% if session[:user_id] %>
+    <i class="glyphicon glyphicon-user"></i>
+    Hello <%= current_user.name %>
+    <%= link_to "Edit", edit_users_path %>,
+    <%= link_to "Logout", sessions_path, method: :delete,
+             data: {confirm: "are you sure you want to log out?"}%>
+  <% else %>
+    <%= link_to "Login", new_session_path %> |
+    <%= link_to "Sign Up", new_user_path %>
+  <% end %>
+  </div>
+  <hr>
+  <% if flash[:notice] %>
+    <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
+  <% elsif flash[:alert] %>
+  <div class="alert alert-danger" role="alert"><%= flash[:alert] %></div>
+  <% end %>
+<%= yield %>
+</div>
+</body>
+</html>

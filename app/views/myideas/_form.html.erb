@@ -1,0 +1,22 @@
+<% if @myidea.errors.any? %>
+  <ul>
+    <% @myidea.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @myidea, class: "form-horizontal" do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :body %>
+    <%= f.text_area :body, class: "form-control" %>
+  </div>
+
+
+
+  <%= f.submit "Submit Myidea", class: "btn btn-primary" %>
+<% end %>

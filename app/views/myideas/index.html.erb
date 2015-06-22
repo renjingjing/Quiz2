@@ -1,0 +1,10 @@
+<h1>All Myidea</h1>
+
+<%# this looks through the @myideas which is like an Array
+    then we can display a line per myidea %>
+<% @myideas.each do |myidea| %>
+  <%= link_to myidea.title, myidea_path(myidea) %>
+  <hr>
+<% end %>
+
+<%= paginate @myideas %>
