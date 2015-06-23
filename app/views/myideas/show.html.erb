@@ -8,6 +8,11 @@
 
 <p> <%= link_to "#{@myidea.collaborations.count} users joined !",
                 myidea_collaborations_path(@myidea) %>
+
+    <%  @myidea.collaborations.each do |c|%>
+    <% uname= User.find c.user_id %>
+    <%= uname.name %> |
+    <% end %>
 </p>
 
 <div class="form-group">

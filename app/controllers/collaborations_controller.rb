@@ -4,6 +4,7 @@ class CollaborationsController < ApplicationController
 
   def index
     @users = @myidea.collaborating_users
+    redirect_to root_path(@users)
   end
 
   def create
